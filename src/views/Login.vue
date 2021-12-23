@@ -17,7 +17,7 @@
                             <i class="fas fa-at text-blue-500"></i>
                         </div>
 
-                        <input id="email" type="email" name="email" class="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Enter your email" v-model="email" :class="{'border-red-500':error.email}" />
+                        <input ref="email" id="email" type="email" name="email" class="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Enter your email" v-model="email" :class="{'border-red-500':error.email}" />
                         <div class="error text-xs mt-2 text-red-500" v-if="error.email">{{error.email}}</div>
                     </div>
                 </div>
@@ -88,6 +88,7 @@ export default {
         if (this.flashMsg) {
             this.showFlash = true
         }
+        this.$refs.email.focus();
     },
     methods: {
         formSubmit() {

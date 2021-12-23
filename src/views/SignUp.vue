@@ -13,7 +13,7 @@
                             <i class="fas fa-user text-blue-500"></i>
                         </div>
 
-                        <input id="name" type="name" name="name" class="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Enter your name" v-model="name" :class="{'border-red-500':error.name}" />
+                        <input ref="name" id="name" type="name" name="name" class="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Enter your name" v-model="name" :class="{'border-red-500':error.name}" />
                         <div class="error text-xs mt-2 text-red-500" v-if="error.name">{{error.name}}</div>
                     </div>
                 </div>
@@ -78,9 +78,6 @@
 </template>
 
 <script>
-import {
-    parse
-} from "vue/compiler-sfc";
 
 export default {
     name: 'SignUp',
@@ -98,7 +95,7 @@ export default {
     },
     beforeCreate() {
         if (this.$route.name != 'SignUp') {
-            if (localStorage.getItem('isAuth') == "false") {
+            if (localStorage.getItem('isAuth')==null || localStorage.getItem('isAuth') == "false") {
                 this.$router.push({
                     name: 'Login',
                     query: {
@@ -110,7 +107,7 @@ export default {
         }
     },
     created() {
-        if (this.$route.name == "EditUser") {
+        if (this.$route.name == "EditUser" && localStorage.getItem('isAuth')!=null) {
             if (this.id !== undefined && this.id != null && this.id != '') {
                 let user_list = JSON.parse(localStorage.getItem('data'));
                 
@@ -135,6 +132,9 @@ export default {
                 }
             }
         }
+    },
+    mounted() {
+        this.$refs.name.focus();
     },
     methods: {
         formSubmit() {
@@ -169,7 +169,7 @@ export default {
             if (Object.keys(this.error).length) {
                 return false;
             }
-            if(this.user_index) {
+            if(this.user_index!=null && this.user_index>=0) {
                 user_data[this.user_index].name = this.name;
                 user_data[this.user_index].email = this.email;
                 user_data[this.user_index].password = this.password;

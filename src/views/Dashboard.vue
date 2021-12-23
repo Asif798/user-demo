@@ -1,5 +1,5 @@
 <template>
-<div class="text-gray-900 bg-gray-200 min-h-screen ">
+<div class="text-gray-900 bg-gray-200 min-h-screen">
     <FlashMessage :type="flashType" :msg="flashMsg" v-if="showFlash" />
 
     <div class="p-4">
@@ -24,7 +24,7 @@
                     <td class="p-3 px-5 border-x">{{user.id}}</td>
                     <td class="p-3 px-5 border-x">{{user.name}}</td>
                     <td class="p-3 px-5 border-x">{{user.email}}</td>
-                    <td class="p-3 px-5 flex justify-center">
+                    <td class="p-3 px-5 flex justify-center ">
                         <router-link class="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline" :to="{ name: 'EditUser', params:{id:user.id} }">Edit</router-link>
                         <button type="button" v-if="user_list.length>1" @click.prevent="deleteUser(user.id)" class="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline">Delete</button>
                     </td>
@@ -57,7 +57,7 @@ export default {
         FlashMessage
     },
     beforeCreate() {
-        if (localStorage.getItem('isAuth') == "false") {
+        if (localStorage.getItem('isAuth')==null || localStorage.getItem('isAuth') == "false") {
             this.$router.push({
                 name: 'Login',
                 query: {
@@ -68,7 +68,7 @@ export default {
         }
     },
     created() {
-        if (localStorage.getItem('isAuth') == "true") {
+        if (localStorage.getItem('isAuth')!=null && localStorage.getItem('isAuth') == "true") {
             let user = localStorage.getItem('data');
             if (user) {
                 this.user_list = JSON.parse(user);
